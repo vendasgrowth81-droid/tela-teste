@@ -211,13 +211,14 @@
             
             // Simular consulta baseada no CPF
             const cpfValue = document.getElementById('consultaForm').cpf.value.replace(/\D/g, '');
-            const nomes = ['João Silva', 'Maria Santos', 'Pedro Oliveira', 'Ana Costa', 'Carlos Pereira'];
-            const nomeAleatorio = nomes[Math.floor(Math.random() * nomes.length)];
+            // Gerar identificador baseado no CPF
+            const idNumber = (parseInt(cpfValue) % 10000).toString().padStart(4, '0');
+            const clientId = 'Cliente #' + idNumber;
             const nascimentoAleatorio = '01/01/1990'; // Pode variar se quiser
             const imagemAleatoria = 'https://via.placeholder.com/300x200?text=Imagem+do+Pedido+' + cpfValue.slice(-4);
             
             const data = {
-                nome: nomeAleatorio,
+                nome: clientId,
                 cpf: cpfValue,
                 nascimento: nascimentoAleatorio,
                 imagem_gerada: imagemAleatoria,
