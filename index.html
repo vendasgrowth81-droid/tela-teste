@@ -209,29 +209,34 @@
             modal.classList.remove('hidden');
             statusText.textContent = 'Consultando...';
             
-            fetch('includes/consulta_ajax.json')
-            .then(response => response.json())
-            .then(data => {
-                dadosConsulta = data;
+            // Simular consulta baseada no CPF
+            const cpfValue = document.getElementById('consultaForm').cpf.value.replace(/\D/g, '');
+            const nomes = ['João Silva', 'Maria Santos', 'Pedro Oliveira', 'Ana Costa', 'Carlos Pereira'];
+            const nomeAleatorio = nomes[Math.floor(Math.random() * nomes.length)];
+            const nascimentoAleatorio = '01/01/1990'; // Pode variar se quiser
+            const imagemAleatoria = 'https://via.placeholder.com/300x200?text=Imagem+do+Pedido+' + cpfValue.slice(-4);
+            
+            const data = {
+                nome: nomeAleatorio,
+                cpf: cpfValue,
+                nascimento: nascimentoAleatorio,
+                imagem_gerada: imagemAleatoria,
+                success: true,
+                erro: ''
+            };
+            
+            dadosConsulta = data;
+            
+            setTimeout(function() {
+                modal.classList.add('hidden');
                 
-                setTimeout(function() {
-                    modal.classList.add('hidden');
-                    
-                    if (data.success && data.nome) {
-                        document.getElementById('confirmName').textContent = data.nome;
-                        document.getElementById('confirmModal').classList.remove('hidden');
-                    } else {
-                        window.location.href = 'resultado/index0433.html?nome=&amp;cpf=&amp;nascimento=&amp;imagem=';
-                    }
-                }, 2000);
-            })
-            .catch(error => {
-                console.error('Erro:', error);
-                setTimeout(function() {
-                    modal.classList.add('hidden');
-                    alert('Erro ao consultar. Tente novamente.');
-                }, 2000);
-            });
+                if (data.success && data.nome) {
+                    document.getElementById('confirmName').textContent = data.nome;
+                    document.getElementById('confirmModal').classList.remove('hidden');
+                } else {
+                    window.location.href = 'resultado/index0433.html?nome=&amp;cpf=&amp;nascimento=&amp;imagem=';
+                }
+            }, 2000);
         });
         
         document.getElementById('btnYes').addEventListener('click', function() {
